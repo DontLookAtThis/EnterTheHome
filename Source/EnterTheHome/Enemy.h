@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Couch.generated.h"
+#include "Enemy.generated.h"
 
 UCLASS()
-class ENTERTHEHOME_API ACouch : public ACharacter
+class ENTERTHEHOME_API AEnemy : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	ACouch();
+	AEnemy();
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,6 +26,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		bool IsAlive = false;
 	
 };
