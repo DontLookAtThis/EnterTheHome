@@ -10,6 +10,7 @@
 #include "EnterTheHomeGameModeBase.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Particles/ParticleSystemComponent.h"
 
 void AEnemy::CheckReturnPositionSnap()
 {
@@ -43,6 +44,8 @@ AEnemy::AEnemy()
 	OGLocationOutline->SetVisibility(false, false);
 	inPosition = true;
 
+	StunnedPS = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("StunnedParticleSystem"));
+	StunnedPS->SetupAttachment(RootComponent);
 };
 
 void AEnemy::Attacked()
@@ -55,6 +58,7 @@ void AEnemy::Attacked()
 			float RandomStunTime = FMath::FRandRange(StunTime.GetLowerBound().GetValue(), StunTime.GetUpperBound().GetValue());
 			GetWorldTimerManager().SetTimer(StunCooldownHandle, this, &AEnemy::UnStun, RandomStunTime);
 			Stunned = true;
+			StunnedPS->Activate();
 		}
 	}
 	else
@@ -78,7 +82,7 @@ void AEnemy::UnStun()
 	Stunned = false;
 	GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
 	GetWorldTimerManager().SetTimer(AfterStunSpeedHandle, this, &AEnemy::DisableAfterStunSpeed, FastEscapeTime);
-	
+	StunnedPS->Deactivate();
 }
 
 void AEnemy::DisableEnemy()
