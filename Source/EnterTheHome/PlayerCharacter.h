@@ -36,6 +36,8 @@ protected:
 
 	void Attack();
 	void Pickup();
+	void StartFlying();
+	void StopFlying();
 
 	void ResetAttack();
 
@@ -46,6 +48,11 @@ protected:
 	FTimerHandle AttackCooldownhandle;
 
 	FTimerHandle AttackAnimationHandle;
+
+	float NormalSpeed;
+
+	FVector NormalBroomPos;
+	FRotator NormalBroomRot;
 
 public:	
 	// Called every frame
@@ -73,6 +80,16 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		float DirectionDeadZone = 0.3f;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		float FlyingSpeed = 1000.0f;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		FVector FlyingBroomPos;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		FRotator FlyingBroomRot;
+
+
 	// Animation
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -81,5 +98,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		float AttackAnimationTime = 0.8f;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		bool IsFlying = false;
 
 };
