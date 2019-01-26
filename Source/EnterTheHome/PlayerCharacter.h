@@ -15,8 +15,12 @@ public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		USceneComponent* HoldPosition;
+
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
+		UStaticMeshComponent* BroomstickMesh;
+
 
 
 protected:

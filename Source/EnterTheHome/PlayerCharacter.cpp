@@ -25,6 +25,9 @@ APlayerCharacter::APlayerCharacter()
 	HoldPosition = CreateDefaultSubobject<USceneComponent>(TEXT("HoldPosition"));
 	HoldPosition->SetupAttachment(RootComponent);
 
+	BroomstickMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Broomstick Mesh"));
+	BroomstickMesh->SetupAttachment(GetMesh(), "ArmR");
+
 }
 
 // Called when the game starts or when spawned
@@ -99,8 +102,6 @@ void APlayerCharacter::Attack()
 		{
 			Cast<AEnemy>(AttackHit.Actor)->Attacked();
 		}
-
-
 	}
 }
 
@@ -112,6 +113,7 @@ void APlayerCharacter::Pickup()
 		HeldFurniture->Held = false;
 		HeldFurniture->StartIdleCooldown();
 		HeldFurniture->CheckReturnPositionSnap();
+		BroomstickMesh->SetVisibility(true);
 	}
 	else
 	{
@@ -127,6 +129,7 @@ void APlayerCharacter::Pickup()
 				HeldFurniture = Enemy;
 				HoldingFurniture = true;
 				HeldFurniture->Held = true;
+				BroomstickMesh->SetVisibility(false);
 			}
 		}
 	}

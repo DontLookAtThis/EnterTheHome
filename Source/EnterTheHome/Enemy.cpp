@@ -54,6 +54,7 @@ AEnemy::AEnemy()
 
 void AEnemy::Attacked()
 {
+	if (!IsAlive) return;
 	if (CurrentHealth - HitDamage > 0)
 	{
 		CurrentHealth = CurrentHealth - HitDamage;
