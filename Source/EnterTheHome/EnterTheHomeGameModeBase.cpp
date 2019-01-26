@@ -59,8 +59,8 @@ void AEnterTheHomeGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	RoundTime = 60.0f;
-	FinalScore = 0.0f;
-	GetWorldTimerManager().SetTimer(RoundEndTimer, this, &AEnterTheHomeGameModeBase::RoundEnd, RoundTime);
+	//RoundTime = 60.0f;
+	//FinalScore = 0.0f;
+	//GetWorldTimerManager().SetTimer(RoundEndTimer, this, &AEnterTheHomeGameModeBase::RoundEnd, RoundTime);
 	
 }
