@@ -15,7 +15,7 @@ public:
 	// Sets default values for this character's properties
 	AEnemy();
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		class UParticleSystemComponent* StunnedPS;
 
 	void Attacked();

@@ -58,7 +58,8 @@ void AEnemy::Attacked()
 			float RandomStunTime = FMath::FRandRange(StunTime.GetLowerBound().GetValue(), StunTime.GetUpperBound().GetValue());
 			GetWorldTimerManager().SetTimer(StunCooldownHandle, this, &AEnemy::UnStun, RandomStunTime);
 			Stunned = true;
-			StunnedPS->Activate();
+			StunnedPS->SetVisibility(true);
+			StunnedPS->Activate(true);
 		}
 	}
 	else
@@ -83,6 +84,7 @@ void AEnemy::UnStun()
 	GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
 	GetWorldTimerManager().SetTimer(AfterStunSpeedHandle, this, &AEnemy::DisableAfterStunSpeed, FastEscapeTime);
 	StunnedPS->Deactivate();
+	StunnedPS->SetVisibility(false);
 }
 
 void AEnemy::DisableEnemy()

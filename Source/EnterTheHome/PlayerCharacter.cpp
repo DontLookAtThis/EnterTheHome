@@ -39,7 +39,11 @@ void APlayerCharacter::HoldFurniture()
 {
 	if (HoldingFurniture)
 	{
-		if (HeldFurniture && HoldPosition) HeldFurniture->SetActorLocation(HoldPosition->GetComponentLocation());
+		if (HeldFurniture && HoldPosition)
+		{
+			HeldFurniture->SetActorLocation(HoldPosition->GetComponentLocation());
+			HeldFurniture->SetActorRotation(GetActorRotation());
+		}
 	}
 }
 
