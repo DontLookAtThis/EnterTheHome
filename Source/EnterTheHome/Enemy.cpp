@@ -110,12 +110,16 @@ void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	FHitResult temp;
-	OGLocationOutline->SetActive(true);
-	OGLocationOutline->bAbsoluteLocation = true;
-	OGLocationOutline->bAbsoluteRotation = true;
+	if (OGLocationOutline)
+	{
+		OGLocationOutline->SetActive(true);
+		OGLocationOutline->bAbsoluteLocation = true;
+		OGLocationOutline->bAbsoluteRotation = true;
 
-	OGLocationOutline->SetWorldLocation(GetActorLocation(), false, &temp, ETeleportType::TeleportPhysics);
-	OGLocationOutline->SetWorldRotation(GetActorRotation(), false, &temp, ETeleportType::TeleportPhysics);
+		OGLocationOutline->SetWorldLocation(GetActorLocation(), false, &temp, ETeleportType::TeleportPhysics);
+		OGLocationOutline->SetWorldRotation(GetActorRotation(), false, &temp, ETeleportType::TeleportPhysics);
+	}
+
 	StartIdleCooldown();
 }
 

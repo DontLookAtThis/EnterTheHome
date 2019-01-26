@@ -61,5 +61,5 @@ void AEnterTheHomeGameModeBase::BeginPlay()
 	RoundTime = 120.0f;
 	FinalScore = 0.0f;
 	GetWorldTimerManager().SetTimer(RoundEndTimer, this, &AEnterTheHomeGameModeBase::RoundEnd, RoundTime);
-	UGameplayStatics::OpenLevel(GetWorld(), GetWorld()->GetFName(), true);
+	//UGameplayStatics::OpenLevel(GetWorld(), GetWorld()->GetFName(), true);
 }
