@@ -14,7 +14,12 @@ class ENTERTHEHOME_API AEnterTheHomeGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+	class APlayerCharacter* PlayerRef;
+
+	int GetAliveEnemies();
 	
-	
-	
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		int MaxEnemyCount = 4.0f;
 };

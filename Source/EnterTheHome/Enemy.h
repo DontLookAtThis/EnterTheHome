@@ -15,6 +15,14 @@ public:
 	// Sets default values for this character's properties
 	AEnemy();
 
+
+	void Attacked();
+	void StartIdleCooldown();
+	void UnStun();
+	void DisableEnemy();
+	void DisableAfterStunSpeed();
+	void EnableEnemyAlive();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -28,5 +36,42 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		bool IsAlive = false;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		bool Stunned = false;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		FFloatRange StunTime;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		FFloatRange CooldownTime;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		FTimerHandle IdleCooldownHandle;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		FTimerHandle StunCooldownHandle;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		FTimerHandle AfterStunSpeedHandle;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		bool Held = false;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		float Health = 30.0f;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		float HitDamage = 10.0f;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		float SprintSpeed = 1300.0f;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		float OriginalSpeed = 600.0f;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		float FastEscapeTime = 1.5f;
+
 	
 };
