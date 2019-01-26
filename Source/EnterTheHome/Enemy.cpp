@@ -50,9 +50,9 @@ AEnemy::AEnemy()
 
 void AEnemy::Attacked()
 {
-	if (Health - HitDamage > 0)
+	if (CurrentHealth - HitDamage > 0)
 	{
-		Health = Health - HitDamage;
+		CurrentHealth = CurrentHealth - HitDamage;
 		if (!Stunned)
 		{
 			float RandomStunTime = FMath::FRandRange(StunTime.GetLowerBound().GetValue(), StunTime.GetUpperBound().GetValue());
@@ -64,7 +64,7 @@ void AEnemy::Attacked()
 	}
 	else
 	{
-		Health = 0.0f;
+		CurrentHealth = 0.0f;
 		DisableEnemy();
 		StartIdleCooldown();
 	}
@@ -76,6 +76,7 @@ void AEnemy::StartIdleCooldown()
 
 	float RandomCooldownTime = FMath::FRandRange(CooldownTime.GetLowerBound().GetValue(), CooldownTime.GetUpperBound().GetValue());
 	GetWorldTimerManager().SetTimer(IdleCooldownHandle, this, &AEnemy::EnableEnemyAlive, RandomCooldownTime);
+	CurrentHealth = Health;
 }
 
 void AEnemy::UnStun()
@@ -125,6 +126,7 @@ void AEnemy::BeginPlay()
 		OGLocationOutline->SetWorldLocation(GetActorLocation(), false, &temp, ETeleportType::TeleportPhysics);
 		OGLocationOutline->SetWorldRotation(GetActorRotation(), false, &temp, ETeleportType::TeleportPhysics);
 	}
+	CurrentHealth = Health;
 
 	StartIdleCooldown();
 }

@@ -84,5 +84,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		float FastEscapeTime = 1.5f;
 
-	
+private:
+	float CurrentHealth;
 };

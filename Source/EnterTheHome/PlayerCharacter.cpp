@@ -122,7 +122,7 @@ void APlayerCharacter::Pickup()
 		{
 			AEnemy* Enemy = Cast<AEnemy>(AttackHit.Actor);
 
-			if (!Enemy->IsAlive)
+			if (!Enemy->IsAlive && !Enemy->inPosition)
 			{
 				HeldFurniture = Enemy;
 				HoldingFurniture = true;
