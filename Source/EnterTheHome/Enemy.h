@@ -17,6 +17,7 @@ public:
 
 
 	void Attacked();
+	UFUNCTION(BlueprintCallable)
 	void StartIdleCooldown();
 	void UnStun();
 	void DisableEnemy();

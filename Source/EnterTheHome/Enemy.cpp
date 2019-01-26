@@ -31,7 +31,7 @@ void AEnemy::Attacked()
 		{
 			float RandomStunTime = FMath::FRandRange(StunTime.GetLowerBound().GetValue(), StunTime.GetUpperBound().GetValue());
 			GetWorldTimerManager().SetTimer(StunCooldownHandle, this, &AEnemy::UnStun, RandomStunTime);
-
+			Stunned = true;
 		}
 	}
 	else
