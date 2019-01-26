@@ -47,6 +47,7 @@ int AEnterTheHomeGameModeBase::CalculateScore()
 void AEnterTheHomeGameModeBase::RoundEnd()
 {
 	FinalScore = CalculateScore();
+	UGameplayStatics::OpenLevel(GetWorld(), GetWorld()->GetFName(), true);
 }
 
 void AEnterTheHomeGameModeBase::Tick(float DeltaTime)
@@ -58,8 +59,8 @@ void AEnterTheHomeGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	RoundTime = 120.0f;
+	RoundTime = 60.0f;
 	FinalScore = 0.0f;
 	GetWorldTimerManager().SetTimer(RoundEndTimer, this, &AEnterTheHomeGameModeBase::RoundEnd, RoundTime);
-	//UGameplayStatics::OpenLevel(GetWorld(), GetWorld()->GetFName(), true);
+	
 }

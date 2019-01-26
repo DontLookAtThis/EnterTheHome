@@ -15,18 +15,22 @@ void AEnemy::CheckReturnPositionSnap()
 {
 	float distance = 0.0f;
 	FVector temp;
-	(GetActorLocation() - OGLocationOutline->GetComponentLocation()).ToDirectionAndLength(temp, distance);
-
-	if (distance < 300.0f)
+	if (OGLocationOutline)
 	{
-		FHitResult temp;
-		SetActorLocation(OGLocationOutline->GetComponentLocation(), false, &temp, ETeleportType::TeleportPhysics);
-		SetActorRotation(OGLocationOutline->GetComponentQuat(), ETeleportType::TeleportPhysics);
-		GetMesh()->SetSimulatePhysics(false);
-		GetCharacterMovement()->SetActive(false);
-		GetCharacterMovement()->SetActive(true);
-		inPosition = true;
+		(GetActorLocation() - OGLocationOutline->GetComponentLocation()).ToDirectionAndLength(temp, distance);
+
+		if (distance < 300.0f)
+		{
+			FHitResult temp;
+			SetActorLocation(OGLocationOutline->GetComponentLocation(), false, &temp, ETeleportType::TeleportPhysics);
+			SetActorRotation(OGLocationOutline->GetComponentQuat(), ETeleportType::TeleportPhysics);
+			GetMesh()->SetSimulatePhysics(false);
+			GetCharacterMovement()->SetActive(false);
+			GetCharacterMovement()->SetActive(true);
+			inPosition = true;
+		}
 	}
+
 }
 
 // Sets default values
