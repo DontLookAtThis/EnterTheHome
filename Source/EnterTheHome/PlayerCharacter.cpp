@@ -57,26 +57,21 @@ void APlayerCharacter::YAxisMove(float AxisValue)
 
 void APlayerCharacter::XAxisFacing(float AxisValue)
 {
-	if (abs(AxisValue) > DirectionDeadZone)
-	{
-		CurrentFacingDirection.X = AxisValue;
-		FVector Right = CurrentFacingDirection.RotateAngleAxis(90, FVector(0.0f, 0.0f, 90.0f));
-		FRotator NewRotation = UKismetMathLibrary::MakeRotationFromAxes(CurrentFacingDirection, Right, FVector(0.0f, 0.0f, 1.0f));
-		
-		SetActorRotation(NewRotation);
-	}
+	CurrentInput.X = AxisValue;
+	
 }
 
 void APlayerCharacter::YAxisFacing(float AxisValue)
 {
-	if (abs(AxisValue) > DirectionDeadZone)
+	CurrentInput.Y = AxisValue;
+	/*if (abs(AxisValue) > DirectionDeadZone)
 	{
 		CurrentFacingDirection.Y = AxisValue;
 		FVector Right = CurrentFacingDirection.RotateAngleAxis(90, FVector(0.0f, 0.0f, 90.0f));
 		FRotator NewRotation = UKismetMathLibrary::MakeRotationFromAxes(CurrentFacingDirection, Right, FVector(0.0f, 0.0f, 1.0f));
 
 		SetActorRotation(NewRotation);
-	}
+	}*/
 }
 
 void APlayerCharacter::Attack()
@@ -142,6 +137,14 @@ void APlayerCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	HoldFurniture();
+
+	if (CurrentInput.Size() > DirectionDeadZone)
+	{
+		FVector Right = CurrentInput.RotateAngleAxis(90, FVector(0.0f, 0.0f, 90.0f));
+		FRotator NewRotation = UKismetMathLibrary::MakeRotationFromAxes(CurrentInput, Right, FVector(0.0f, 0.0f, 1.0f));
+
+		SetActorRotation(NewRotation);
+	}
 }
 
 // Called to bind functionality to input

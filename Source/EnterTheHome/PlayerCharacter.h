@@ -35,7 +35,7 @@ protected:
 
 	void ResetAttack();
 
-	FVector CurrentFacingDirection = FVector();
+	FVector CurrentInput = FVector();
 
 	FTimerHandle AttackCooldownhandle;
 
