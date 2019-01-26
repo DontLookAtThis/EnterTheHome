@@ -18,11 +18,14 @@ public:
 	class APlayerCharacter* PlayerRef;
 	TArray<AActor*> FoundActors;
 
-
-	void GetAllEnemies();
-	int GetAliveEnemies();
-	int CalculateScore();
-	void RoundEnd();
+	UFUNCTION(BlueprintCallable)
+		void GetAllEnemies();
+	UFUNCTION(BlueprintCallable)
+		int GetAliveEnemies();
+	UFUNCTION(BlueprintCallable)
+		int CalculateScore();
+	UFUNCTION(BlueprintCallable)
+		void RoundEnd();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		int MaxEnemyCount = 4.0f;
