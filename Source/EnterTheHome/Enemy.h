@@ -15,6 +15,8 @@ public:
 	// Sets default values for this character's properties
 	AEnemy();
 
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
+		class UParticleSystemComponent* StunnedPS;
 
 	void Attacked();
 	UFUNCTION(BlueprintCallable)
@@ -82,5 +84,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		float FastEscapeTime = 1.5f;
 
-	
+private:
+	float CurrentHealth;
 };

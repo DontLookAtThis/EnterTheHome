@@ -25,6 +25,9 @@ APlayerCharacter::APlayerCharacter()
 	HoldPosition = CreateDefaultSubobject<USceneComponent>(TEXT("HoldPosition"));
 	HoldPosition->SetupAttachment(RootComponent);
 
+	BroomstickMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Broomstick Mesh"));
+	BroomstickMesh->SetupAttachment(GetMesh(), "ArmR");
+
 }
 
 // Called when the game starts or when spawned
@@ -33,13 +36,23 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 	
 	Cast<AEnterTheHomeGameModeBase>(GetWorld()->GetAuthGameMode())->PlayerRef = this;
+
+	NormalSpeed = GetCharacterMovement()->MaxWalkSpeed;
+
+	BroomstickMesh->SetVisibility(false);
+	NormalBroomPos = BroomstickMesh->RelativeLocation;
+	NormalBroomRot = BroomstickMesh->RelativeRotation;
 }
 
 void APlayerCharacter::HoldFurniture()
 {
 	if (HoldingFurniture)
 	{
-		if (HeldFurniture && HoldPosition) HeldFurniture->SetActorLocation(HoldPosition->GetComponentLocation());
+		if (HeldFurniture && HoldPosition)
+		{
+			HeldFurniture->SetActorLocation(HoldPosition->GetComponentLocation());
+			HeldFurniture->SetActorRotation(GetActorRotation());
+		}
 	}
 }
 
@@ -80,6 +93,7 @@ void APlayerCharacter::Attack()
 	{
 		IsAttacking = true;
 		GetWorldTimerManager().SetTimer(AttackAnimationHandle, this, &APlayerCharacter::StopAttackAnim, AttackAnimationTime);
+		BroomstickMesh->SetVisibility(true);
 
 		CanAttack = false;
 		GetWorldTimerManager().SetTimer(AttackCooldownhandle, this, &APlayerCharacter::ResetAttack, AttackCooldown);
@@ -95,8 +109,6 @@ void APlayerCharacter::Attack()
 		{
 			Cast<AEnemy>(AttackHit.Actor)->Attacked();
 		}
-
-
 	}
 }
 
@@ -118,14 +130,37 @@ void APlayerCharacter::Pickup()
 		{
 			AEnemy* Enemy = Cast<AEnemy>(AttackHit.Actor);
 
-			if (!Enemy->IsAlive)
+			if (!Enemy->IsAlive && !Enemy->inPosition)
 			{
 				HeldFurniture = Enemy;
 				HoldingFurniture = true;
 				HeldFurniture->Held = true;
+				BroomstickMesh->SetVisibility(false);
 			}
 		}
 	}
+}
+
+void APlayerCharacter::StartFlying()
+{
+	if (HoldingFurniture || IsAttacking) return;
+	IsFlying = true;
+	GetCharacterMovement()->MaxWalkSpeed = FlyingSpeed;
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	BroomstickMesh->RelativeLocation = FlyingBroomPos;
+	BroomstickMesh->RelativeRotation = FlyingBroomRot;
+	BroomstickMesh->SetVisibility(true);
+}
+
+void APlayerCharacter::StopFlying()
+{
+	IsFlying = false;
+	GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
+	GetCharacterMovement()->bOrientRotationToMovement = false;
+	BroomstickMesh->SetVisibility(false);
+
+	BroomstickMesh->RelativeLocation = NormalBroomPos;
+	BroomstickMesh->RelativeRotation = NormalBroomRot;
 }
 
 void APlayerCharacter::ResetAttack()
@@ -137,6 +172,7 @@ void APlayerCharacter::ResetAttack()
 void APlayerCharacter::StopAttackAnim()
 {
 	IsAttacking = false;
+	BroomstickMesh->SetVisibility(false);
 }
 
 // Called every frame
@@ -146,7 +182,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 	HoldFurniture();
 
-	if (CurrentInput.Size() > DirectionDeadZone)
+	if (CurrentInput.Size() > DirectionDeadZone && !IsFlying)
 	{
 		FVector Right = CurrentInput.RotateAngleAxis(90, FVector(0.0f, 0.0f, 90.0f));
 		FRotator NewRotation = UKismetMathLibrary::MakeRotationFromAxes(CurrentInput, Right, FVector(0.0f, 0.0f, 1.0f));
@@ -167,5 +203,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &APlayerCharacter::Attack);
 	PlayerInputComponent->BindAction("Pickup", IE_Pressed, this, &APlayerCharacter::Pickup);
+	PlayerInputComponent->BindAction("Flying", IE_Pressed, this, &APlayerCharacter::StartFlying);
+	PlayerInputComponent->BindAction("Flying", IE_Released, this, &APlayerCharacter::StopFlying);
 }
 
