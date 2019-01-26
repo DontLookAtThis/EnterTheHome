@@ -110,6 +110,7 @@ void APlayerCharacter::Pickup()
 		HoldingFurniture = false;
 		HeldFurniture->Held = false;
 		HeldFurniture->StartIdleCooldown();
+		HeldFurniture->CheckReturnPositionSnap();
 	}
 	else
 	{
@@ -124,7 +125,7 @@ void APlayerCharacter::Pickup()
 			{
 				HeldFurniture = Enemy;
 				HoldingFurniture = true;
-				HeldFurniture->Held = false;
+				HeldFurniture->Held = true;
 			}
 		}
 	}

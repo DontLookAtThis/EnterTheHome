@@ -23,6 +23,7 @@ public:
 	void DisableEnemy();
 	void DisableAfterStunSpeed();
 	void EnableEnemyAlive();
+	void CheckReturnPositionSnap();
 
 protected:
 	// Called when the game starts or when spawned
@@ -34,6 +35,13 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+		bool inPosition;
+
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+		UStaticMeshComponent* OGLocationOutline;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		bool IsAlive = false;
