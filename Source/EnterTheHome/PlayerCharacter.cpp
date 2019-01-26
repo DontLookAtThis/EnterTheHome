@@ -78,9 +78,11 @@ void APlayerCharacter::Attack()
 {
 	if (CanAttack)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "Attempting attack!");
-		GetWorldTimerManager().SetTimer(AttackCooldownhandle, this, &APlayerCharacter::ResetAttack, AttackCooldown);
+		IsAttacking = true;
+		GetWorldTimerManager().SetTimer(AttackAnimationHandle, this, &APlayerCharacter::StopAttackAnim, AttackAnimationTime);
+
 		CanAttack = false;
+		GetWorldTimerManager().SetTimer(AttackCooldownhandle, this, &APlayerCharacter::ResetAttack, AttackCooldown);
 		
 		FVector StartLocation = GetActorLocation();
 		FVector EndLocation = StartLocation + GetActorForwardVector() * AttackRange;
@@ -129,6 +131,11 @@ void APlayerCharacter::ResetAttack()
 {
 	CanAttack = true;
 	GetWorldTimerManager().ClearTimer(AttackCooldownhandle);
+}
+
+void APlayerCharacter::StopAttackAnim()
+{
+	IsAttacking = false;
 }
 
 // Called every frame

@@ -35,9 +35,13 @@ protected:
 
 	void ResetAttack();
 
+	void StopAttackAnim();
+
 	FVector CurrentInput = FVector();
 
 	FTimerHandle AttackCooldownhandle;
+
+	FTimerHandle AttackAnimationHandle;
 
 public:	
 	// Called every frame
@@ -64,6 +68,14 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		float DirectionDeadZone = 0.3f;
+
+	// Animation
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		bool IsAttacking = false;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		float AttackAnimationTime = 0.8f;
 
 
 };
