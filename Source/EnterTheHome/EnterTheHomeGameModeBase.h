@@ -14,7 +14,25 @@ class ENTERTHEHOME_API AEnterTheHomeGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+	class APlayerCharacter* PlayerRef;
+	TArray<AActor*> FoundActors;
+
+
+	void GetAllEnemies();
+	int GetAliveEnemies();
+	int CalculateScore();
+	void RoundEnd();
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		int MaxEnemyCount = 4.0f;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		FTimerHandle RoundEndTimer;
+
+	int RoundTime;
+	int FinalScore;
+
+	virtual void Tick(float DeltaTime) override;
+	virtual void BeginPlay() override;
 };
