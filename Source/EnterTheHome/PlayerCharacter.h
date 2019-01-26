@@ -15,8 +15,9 @@ public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
-		USceneComponent* HoldLocation;
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+		USceneComponent* HoldPosition;
+
 
 protected:
 	// Called when the game starts or when spawned

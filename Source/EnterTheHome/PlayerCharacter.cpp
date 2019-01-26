@@ -10,14 +10,21 @@
 
 #include "Kismet/KismetMathLibrary.h"
 
+
+
+
+#include "Engine.h"
+
+
 // Sets default values
 APlayerCharacter::APlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	HoldLocation = CreateDefaultSubobject<USceneComponent>(TEXT("HoldLocation"));
-	HoldLocation->AttachTo(RootComponent);
+	HoldPosition = CreateDefaultSubobject<USceneComponent>(TEXT("HoldPosition"));
+	HoldPosition->SetupAttachment(RootComponent);
+
 }
 
 // Called when the game starts or when spawned
@@ -32,7 +39,7 @@ void APlayerCharacter::HoldFurniture()
 {
 	if (HoldingFurniture)
 	{
-		HeldFurniture->SetActorLocation(HoldLocation->GetComponentLocation());
+		if (HeldFurniture && HoldPosition) HeldFurniture->SetActorLocation(HoldPosition->GetComponentLocation());
 	}
 }
 
@@ -76,16 +83,23 @@ void APlayerCharacter::Attack()
 {
 	if (CanAttack)
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "Attempting attack!");
 		GetWorldTimerManager().SetTimer(AttackCooldownhandle, this, &APlayerCharacter::ResetAttack, AttackCooldown);
 		CanAttack = false;
 		
 		FVector StartLocation = GetActorLocation();
 		FVector EndLocation = StartLocation + GetActorForwardVector() * AttackRange;
 		FHitResult AttackHit;
-		if (GetWorld()->SweepSingleByChannel(AttackHit, StartLocation, EndLocation, GetActorForwardVector().Rotation().Quaternion(), ECollisionChannel::ECC_EngineTraceChannel1, FCollisionShape::MakeBox(FVector(50.0f, 50.0f, 0.0f))))
+		FCollisionQueryParams CollisionParams = FCollisionQueryParams::DefaultQueryParam;
+		const FName TraceTag("VisibleTrace");
+		GetWorld()->DebugDrawTraceTag = TraceTag;
+		CollisionParams.TraceTag = TraceTag;
+		if (GetWorld()->SweepSingleByChannel(AttackHit, StartLocation, EndLocation, GetActorForwardVector().ToOrientationQuat(), ECollisionChannel::ECC_GameTraceChannel1, FCollisionShape::MakeBox(FVector(0.0f, 50.0f, 50.0f)), CollisionParams))
 		{
 			Cast<AEnemy>(AttackHit.Actor)->Attacked();
 		}
+
+
 	}
 }
 
@@ -102,7 +116,7 @@ void APlayerCharacter::Pickup()
 		FVector StartLocation = GetActorLocation();
 		FVector EndLocation = StartLocation + GetActorForwardVector() * AttackRange;
 		FHitResult AttackHit;
-		if (GetWorld()->SweepSingleByChannel(AttackHit, StartLocation, EndLocation, GetActorForwardVector().Rotation().Quaternion(), ECollisionChannel::ECC_EngineTraceChannel1, FCollisionShape::MakeBox(FVector(50.0f, 50.0f, 0.0f))))
+		if (GetWorld()->SweepSingleByChannel(AttackHit, StartLocation, EndLocation, GetActorForwardVector().Rotation().Quaternion(), ECollisionChannel::ECC_GameTraceChannel1, FCollisionShape::MakeBox(FVector(50.0f, 50.0f, 0.0f))))
 		{
 			AEnemy* Enemy = Cast<AEnemy>(AttackHit.Actor);
 
