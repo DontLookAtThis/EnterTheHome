@@ -23,7 +23,7 @@ void AEnemy::CheckReturnPositionSnap()
 		if (distance < 300.0f)
 		{
 			FHitResult temp;
-			SetActorLocation(OGLocationOutline->GetComponentLocation(), false, &temp, ETeleportType::TeleportPhysics);
+			SetActorLocation(OGLocationOutline->GetComponentLocation(), false, &temp, ETeleportType::None);
 			SetActorRotation(OGLocationOutline->GetComponentQuat(), ETeleportType::TeleportPhysics);
 			GetMesh()->SetSimulatePhysics(false);
 			GetCharacterMovement()->SetActive(false);
@@ -54,6 +54,7 @@ AEnemy::AEnemy()
 
 void AEnemy::Attacked()
 {
+	if (!IsAlive) return;
 	if (CurrentHealth - HitDamage > 0)
 	{
 		CurrentHealth = CurrentHealth - HitDamage;
