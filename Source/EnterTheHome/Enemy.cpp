@@ -11,6 +11,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "Kismet/GameplayStatics.h"
+
 
 void AEnemy::CheckReturnPositionSnap()
 {
@@ -22,6 +24,7 @@ void AEnemy::CheckReturnPositionSnap()
 
 		if (distance < 300.0f)
 		{
+			UGameplayStatics::PlaySound2D(GetWorld(), PlacedSound, 0.5f);
 			FHitResult temp;
 			SetActorLocation(OGLocationOutline->GetComponentLocation(), false, &temp, ETeleportType::None);
 			SetActorRotation(OGLocationOutline->GetComponentQuat(), ETeleportType::TeleportPhysics);
@@ -104,6 +107,7 @@ void AEnemy::DisableEnemy()
 	IsAlive = false;
 	PossessedPS->Activate();
 	OutsidePossessedMesh->SetVisibility(false);
+	UGameplayStatics::PlaySound2D(GetWorld(), PurifiedSound, 0.3f);
 }
 
 void AEnemy::DisableAfterStunSpeed()
@@ -119,6 +123,7 @@ void AEnemy::EnableEnemyAlive()
 		IsAlive = true;
 		inPosition = false;
 		OutsidePossessedMesh->SetVisibility(true);
+		UGameplayStatics::PlaySound2D(GetWorld(), SpookySound, 0.2f);
 	}
 	else
 	{

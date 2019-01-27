@@ -24,6 +24,12 @@ public:
 	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		class USkeletalMeshComponent* OutsidePossessedMesh;
 
+		USoundBase* PlacedSound;
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
+		USoundBase* PurifiedSound;
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
+		USoundBase* SpookySound;
+
 	void Attacked();
 	UFUNCTION(BlueprintCallable)
 	void StartIdleCooldown();

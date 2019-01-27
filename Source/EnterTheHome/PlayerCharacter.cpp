@@ -9,6 +9,7 @@
 #include "Enemy.h"
 
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -96,6 +97,7 @@ void APlayerCharacter::Attack()
 {
 	if (CanAttack)
 	{
+		UGameplayStatics::PlaySound2D(GetWorld(), AttackSound, 0.5f);
 		IsAttacking = true;
 		GetWorldTimerManager().SetTimer(AttackAnimationHandle, this, &APlayerCharacter::StopAttackAnim, AttackAnimationTime);
 		BroomstickMesh->SetVisibility(true);
@@ -149,6 +151,7 @@ void APlayerCharacter::Pickup()
 void APlayerCharacter::StartFlying()
 {
 	if (HoldingFurniture || IsAttacking) return;
+	UGameplayStatics::PlaySound2D(GetWorld(), BroomZoomSound, 0.5f);
 	IsFlying = true;
 	GetCharacterMovement()->MaxWalkSpeed = FlyingSpeed;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
