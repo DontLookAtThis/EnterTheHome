@@ -18,6 +18,12 @@ public:
 	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		class UParticleSystemComponent* StunnedPS;
 
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
+		class UParticleSystemComponent* PossessedPS;
+
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
+		class USkeletalMeshComponent* OutsidePossessedMesh;
+
 	void Attacked();
 	UFUNCTION(BlueprintCallable)
 	void StartIdleCooldown();
