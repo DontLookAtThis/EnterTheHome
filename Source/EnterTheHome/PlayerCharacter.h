@@ -20,9 +20,10 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		UStaticMeshComponent* BroomstickMesh;
-
-
-
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
+		USoundBase* AttackSound;
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
+		USoundBase* BroomZoomSound;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

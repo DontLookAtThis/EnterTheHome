@@ -10,9 +10,6 @@
 
 #include "Kismet/KismetMathLibrary.h"
 
-
-
-
 #include "Engine.h"
 
 
@@ -27,7 +24,6 @@ APlayerCharacter::APlayerCharacter()
 
 	BroomstickMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Broomstick Mesh"));
 	BroomstickMesh->SetupAttachment(GetMesh(), "ArmR");
-
 }
 
 // Called when the game starts or when spawned
@@ -91,6 +87,7 @@ void APlayerCharacter::Attack()
 {
 	if (CanAttack)
 	{
+		UGameplayStatics::PlaySound2D(GetWorld(), AttackSound, 0.5f);
 		IsAttacking = true;
 		GetWorldTimerManager().SetTimer(AttackAnimationHandle, this, &APlayerCharacter::StopAttackAnim, AttackAnimationTime);
 		BroomstickMesh->SetVisibility(true);
@@ -144,6 +141,7 @@ void APlayerCharacter::Pickup()
 void APlayerCharacter::StartFlying()
 {
 	if (HoldingFurniture || IsAttacking) return;
+	UGameplayStatics::PlaySound2D(GetWorld(), BroomZoomSound, 0.5f);
 	IsFlying = true;
 	GetCharacterMovement()->MaxWalkSpeed = FlyingSpeed;
 	GetCharacterMovement()->bOrientRotationToMovement = true;

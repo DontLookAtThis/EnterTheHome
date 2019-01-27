@@ -18,6 +18,13 @@ public:
 	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		class UParticleSystemComponent* StunnedPS;
 
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
+		USoundBase* PlacedSound;
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
+		USoundBase* PurifiedSound;
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
+		USoundBase* SpookySound;
+
 	void Attacked();
 	UFUNCTION(BlueprintCallable)
 	void StartIdleCooldown();
