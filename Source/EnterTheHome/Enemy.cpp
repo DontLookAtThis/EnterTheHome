@@ -53,6 +53,12 @@ AEnemy::AEnemy()
 
 	StunnedPS = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("StunnedParticleSystem"));
 	StunnedPS->SetupAttachment(RootComponent);
+
+	PossessedPS = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("PossessedParticleSystem"));
+	PossessedPS->SetupAttachment(RootComponent);
+
+	OutsidePossessedMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Possessed Mesh"));
+	OutsidePossessedMesh->SetupAttachment(GetMesh());
 };
 
 void AEnemy::Attacked()
@@ -99,6 +105,8 @@ void AEnemy::UnStun()
 void AEnemy::DisableEnemy()
 {
 	IsAlive = false;
+	PossessedPS->Activate();
+	OutsidePossessedMesh->SetVisibility(false);
 	UGameplayStatics::PlaySound2D(GetWorld(), PurifiedSound, 0.3f);
 }
 
@@ -114,6 +122,7 @@ void AEnemy::EnableEnemyAlive()
 	{
 		IsAlive = true;
 		inPosition = false;
+		OutsidePossessedMesh->SetVisibility(true);
 		UGameplayStatics::PlaySound2D(GetWorld(), SpookySound, 0.2f);
 	}
 	else
@@ -139,6 +148,7 @@ void AEnemy::BeginPlay()
 	CurrentHealth = Health;
 
 	StartIdleCooldown();
+	OutsidePossessedMesh->SetVisibility(false);
 }
 
 // Called every frame

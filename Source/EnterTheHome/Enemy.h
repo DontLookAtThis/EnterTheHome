@@ -19,6 +19,11 @@ public:
 		class UParticleSystemComponent* StunnedPS;
 
 	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
+		class UParticleSystemComponent* PossessedPS;
+
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
+		class USkeletalMeshComponent* OutsidePossessedMesh;
+
 		USoundBase* PlacedSound;
 	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		USoundBase* PurifiedSound;
