@@ -95,7 +95,7 @@ void APlayerCharacter::YAxisFacing(float AxisValue)
 
 void APlayerCharacter::Attack()
 {
-	if (CanAttack)
+	if (CanAttack && !IsFlying)
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), AttackSound, 0.5f);
 		IsAttacking = true;
@@ -112,7 +112,7 @@ void APlayerCharacter::Attack()
 		const FName TraceTag("VisibleTrace");
 		GetWorld()->DebugDrawTraceTag = TraceTag;
 		CollisionParams.TraceTag = TraceTag;
-		if (GetWorld()->SweepSingleByChannel(AttackHit, StartLocation, EndLocation, GetActorForwardVector().ToOrientationQuat(), ECollisionChannel::ECC_GameTraceChannel1, FCollisionShape::MakeBox(FVector(0.0f, 50.0f, 50.0f)), CollisionParams))
+		if (GetWorld()->SweepSingleByChannel(AttackHit, StartLocation, EndLocation, GetActorForwardVector().ToOrientationQuat(), ECollisionChannel::ECC_GameTraceChannel1, FCollisionShape::MakeBox(FVector(0.0f, 50.0f, 100.0f)), CollisionParams))
 		{
 			Cast<AEnemy>(AttackHit.Actor)->Attacked();
 		}
@@ -133,7 +133,7 @@ void APlayerCharacter::Pickup()
 		FVector StartLocation = GetActorLocation();
 		FVector EndLocation = StartLocation + GetActorForwardVector() * AttackRange;
 		FHitResult AttackHit;
-		if (GetWorld()->SweepSingleByChannel(AttackHit, StartLocation, EndLocation, GetActorForwardVector().Rotation().Quaternion(), ECollisionChannel::ECC_GameTraceChannel1, FCollisionShape::MakeBox(FVector(50.0f, 50.0f, 0.0f))))
+		if (GetWorld()->SweepSingleByChannel(AttackHit, StartLocation, EndLocation, GetActorForwardVector().Rotation().Quaternion(), ECollisionChannel::ECC_GameTraceChannel1, FCollisionShape::MakeBox(FVector(50.0f, 100.0f, 0.0f))))
 		{
 			AEnemy* Enemy = Cast<AEnemy>(AttackHit.Actor);
 
