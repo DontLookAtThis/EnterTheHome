@@ -16,7 +16,7 @@
 
 #include "GameFramework/CharacterMovementComponent.h"
 
-
+#include "Components/CapsuleComponent.h"
 
 
 // Sets default values
@@ -143,6 +143,7 @@ void APlayerCharacter::Pickup()
 				HoldingFurniture = true;
 				HeldFurniture->Held = true;
 				BroomstickMesh->SetVisibility(false);
+				Enemy->BodyCapsule->SetCollisionProfileName(FName("ENEMYOVERLAP"));
 			}
 		}
 	}

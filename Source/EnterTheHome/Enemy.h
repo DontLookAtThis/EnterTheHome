@@ -23,12 +23,17 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		class USkeletalMeshComponent* OutsidePossessedMesh;
+
+
 	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		USoundBase* PlacedSound;
 	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		USoundBase* PurifiedSound;
 	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		USoundBase* SpookySound;
+
+	USkeletalMeshComponent* BodyMesh;
+	UCapsuleComponent* BodyCapsule;
 
 	void Attacked();
 	UFUNCTION(BlueprintCallable)
@@ -38,6 +43,9 @@ public:
 	void DisableAfterStunSpeed();
 	void EnableEnemyAlive();
 	void CheckReturnPositionSnap();
+
+	UFUNCTION()
+	void OnCollisionEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 protected:
 	// Called when the game starts or when spawned
