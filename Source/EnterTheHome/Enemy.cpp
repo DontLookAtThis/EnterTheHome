@@ -12,7 +12,9 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/CapsuleComponent.h"
 
+#include "Engine.h"
 
 void AEnemy::CheckReturnPositionSnap()
 {
@@ -37,6 +39,10 @@ void AEnemy::CheckReturnPositionSnap()
 
 }
 
+void AEnemy::OnCollisionEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+}
+
 // Sets default values
 AEnemy::AEnemy()
 {
@@ -59,6 +65,9 @@ AEnemy::AEnemy()
 
 	OutsidePossessedMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Possessed Mesh"));
 	OutsidePossessedMesh->SetupAttachment(GetMesh());
+
+	BodyCapsule = GetCapsuleComponent();
+	BodyCapsule->OnComponentEndOverlap.AddDynamic(this, &AEnemy::OnCollisionEnd);
 };
 
 void AEnemy::Attacked()
