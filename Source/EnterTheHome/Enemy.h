@@ -23,7 +23,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		class USkeletalMeshComponent* OutsidePossessedMesh;
-
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		USoundBase* PlacedSound;
 	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		USoundBase* PurifiedSound;
