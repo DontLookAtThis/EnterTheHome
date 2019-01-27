@@ -10,10 +10,12 @@
 
 #include "Kismet/KismetMathLibrary.h"
 
+#include "Particles/ParticleSystemComponent.h"
+#include "Components/StaticMeshComponent.h"
+
+#include "GameFramework/CharacterMovementComponent.h"
 
 
-
-#include "Engine.h"
 
 
 // Sets default values
@@ -27,6 +29,9 @@ APlayerCharacter::APlayerCharacter()
 
 	BroomstickMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Broomstick Mesh"));
 	BroomstickMesh->SetupAttachment(GetMesh(), "ArmR");
+
+	BroomstickFlyingPS = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("BroomstickFlyingPS"));
+	BroomstickFlyingPS->SetupAttachment(BroomstickMesh);
 
 }
 
@@ -150,6 +155,8 @@ void APlayerCharacter::StartFlying()
 	BroomstickMesh->RelativeLocation = FlyingBroomPos;
 	BroomstickMesh->RelativeRotation = FlyingBroomRot;
 	BroomstickMesh->SetVisibility(true);
+	BroomstickFlyingPS->Activate();
+	BroomstickFlyingPS->SetVisibility(true);
 }
 
 void APlayerCharacter::StopFlying()
@@ -161,6 +168,8 @@ void APlayerCharacter::StopFlying()
 
 	BroomstickMesh->RelativeLocation = NormalBroomPos;
 	BroomstickMesh->RelativeRotation = NormalBroomRot;
+	BroomstickFlyingPS->Deactivate();
+	BroomstickFlyingPS->SetVisibility(false);
 }
 
 void APlayerCharacter::ResetAttack()

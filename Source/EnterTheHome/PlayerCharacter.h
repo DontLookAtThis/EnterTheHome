@@ -21,6 +21,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
 		UStaticMeshComponent* BroomstickMesh;
 
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly)
+		UParticleSystemComponent* BroomstickFlyingPS;
 
 
 protected:

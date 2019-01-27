@@ -55,7 +55,7 @@ AEnemy::AEnemy()
 	PossessedPS->SetupAttachment(RootComponent);
 
 	OutsidePossessedMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Possessed Mesh"));
-	OutsidePossessedMesh->SetupAttachment(RootComponent);
+	OutsidePossessedMesh->SetupAttachment(GetMesh());
 };
 
 void AEnemy::Attacked()
